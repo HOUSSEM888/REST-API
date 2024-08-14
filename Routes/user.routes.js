@@ -7,4 +7,6 @@ router.post('/add-new-user',userCtrl.addUser)
 
 router.put('/update-user/:id',userCtrl.updateUser)
 
+router.get('/get-all-users' , userCtrl.getAllUsers)
+
 module.exports = router

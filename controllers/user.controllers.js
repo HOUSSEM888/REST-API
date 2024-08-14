@@ -1,16 +1,24 @@
 const User = require('../models/user.schema')
 
 const usersCtrl = {
-    addUser : (req,res)=>{
-        const {firstName, lastName , age , email} = req.body
+    addUser : async(req,res)=>{
+      
     
-        const newUser= {firstName, lastName , age , email , createdAt : new Date()}
-    
-        const userToSave = new User(newUser)
-    
-        userToSave.save()
-        .then(()=> res.status(200).send('user saved !'))
-        .catch((err)=>console.log('err', err))
+        
+
+        try {
+            const {firstName, lastName , age , email} = req.body
+            const newUser= {firstName, lastName , age , email , createdAt : new Date()}
+            const userToSave = new User(newUser)
+            await userToSave.save()
+
+            res.status(200).json('user added successfully')
+
+
+
+        } catch (error) {
+            console.log('err', error)
+        }
     } ,
 
     updateUser: (req,res)=>{
@@ -30,7 +38,20 @@ const usersCtrl = {
         )
         .then(()=> res.status(200).send('User updated successfully'))
         .catch((err)=> console.log('err', err))    
+    },
+
+    getAllUsers : async (req,res)=>{
+        try {
+            const data = await User.find()
+            console.log('data', data)
+
+            res.status(200).json(data)
+
+        } catch (error) {
+            console.log('error', error)
+        }
     }
+
 }
 
 module.exports = usersCtrl
